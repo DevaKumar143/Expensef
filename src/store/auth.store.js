@@ -16,7 +16,7 @@ const useAuthStore = create((set) => ({
 
   try {
     const result = await register(data);
-    console.log("Register Response:", result);
+    // console.log("Register Response:", result);
 
     const token = result.Authtoken; 
 
@@ -53,7 +53,7 @@ const useAuthStore = create((set) => ({
 
   try {
     const result = await login(data);
-    console.log("Login Response:", result);
+    // console.log("Login Response:", result);
 
     const token = result.Authtoken; 
 
