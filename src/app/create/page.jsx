@@ -1,14 +1,18 @@
 "use client";
 
 import React, { useState } from "react";
+import useExpenseStore from "@/store/expense.store";
+import { useRouter } from "next/navigation";
 
 const Page = () => {
+  const router = useRouter();
   const [expense, setExpense] = useState({
     amount: "",
     description: "",
     category: "",
     date: "",
   });
+  const { addExpense } = useExpenseStore();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -19,23 +23,34 @@ const Page = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const handleSubmit = async (e) => {
+  e.preventDefault();
 
-    console.log("Expense Data:", expense);
+  const payload = {
+    ...expense,
+    amount: Number(expense.amount),
   };
+
+  try {
+    const result = await addExpense(payload);
+    console.log(result);
+    alert("Expense Added");
+         router.push("/");
+  } catch (err) {
+    console.log(err);
+    alert("Expense Added Failed");
+  }
+};
 
   return (
     <div className="min-h-screen bg-gray-100 flex items-center justify-center px-4 py-10">
       <div className="w-full max-w-lg bg-white rounded-2xl shadow-lg p-6 sm:p-8">
-        
+
         <h2 className="text-2xl font-bold text-gray-800 text-center mb-6">
           Add Expense
         </h2>
 
         <form onSubmit={handleSubmit} className="space-y-5">
-
-          {/* Amount */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
               Amount
@@ -56,9 +71,6 @@ const Page = () => {
               "
             />
           </div>
-
-
-          {/* Description */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
               Description
@@ -79,9 +91,6 @@ const Page = () => {
               "
             />
           </div>
-
-
-          {/* Category */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
               Category
@@ -107,9 +116,6 @@ const Page = () => {
               <option value="Other">Other</option>
             </select>
           </div>
-
-
-          {/* Date */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
               Date
@@ -124,26 +130,13 @@ const Page = () => {
                 w-full rounded-lg border border-gray-300 
                 px-4 py-3 text-gray-800
                 outline-none
-                focus:ring-2 focus:ring-blue-500
-              "
+                focus:ring-2 focus:ring-blue-500"
             />
           </div>
 
-
-          {/* Submit Button */}
           <button
             type="submit"
-            className="
-              w-full
-              bg-blue-600 
-              text-white
-              font-semibold
-              py-3
-              rounded-lg
-              hover:bg-blue-700
-              transition
-              duration-200
-              active:scale-95">
+            className="w-full bg-blue-600 text-whitefont-semibold py-3 rounded-lg hover:bg-blue-700 transition duration-200 active:scale-95">
             Add Expense
           </button>
 

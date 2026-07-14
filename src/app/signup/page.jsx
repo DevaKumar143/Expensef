@@ -2,8 +2,10 @@
 
 import React, { useState } from "react";
 import useAuthStore from "@/store/auth.store";
+import { useRouter } from "next/navigation";
 
 const Page = () => {
+   const router = useRouter();
   const { registerUser, loading } = useAuthStore();
   const [user, setUser] = useState({
     name: "",
@@ -26,8 +28,9 @@ const Page = () => {
     // console.log("Signup Data:", user);
      try {
       const result = await registerUser(user);
-      console.log(result);
+      // console.log(result);
       alert("Registration Successful");
+         router.push("/");
     } catch (err) {
       console.log(err);
       alert("Registration Failed");
@@ -43,8 +46,6 @@ const Page = () => {
         </h2>
 
         <form onSubmit={handleSubmit} className="space-y-5">
-
-          {/* Name */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
               Name
@@ -65,14 +66,10 @@ const Page = () => {
               "
             />
           </div>
-
-
-          {/* Email */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
               Email
             </label>
-
             <input
               type="email"
               name="email"
@@ -88,9 +85,6 @@ const Page = () => {
               "
             />
           </div>
-
-
-          {/* Password */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
               Password
@@ -112,26 +106,11 @@ const Page = () => {
             />
           </div>
 
-
-          {/* Submit */}
           <button
             type="submit"
-            className="
-              w-full
-              bg-blue-600
-              text-white
-              font-semibold
-              py-3
-              rounded-lg
-              hover:bg-blue-700
-              transition
-              duration-200
-              active:scale-95
-            "
-          >
+            className="w-full bg-blue-600 text-white font-semibold py-3 rounded-lg hover:bg-blue-700 transition duration-200 active:scale-95">
             Signup
           </button>
-
         </form>
 
       </div>

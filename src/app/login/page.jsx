@@ -2,8 +2,10 @@
 
 import React, { useState } from "react";
 import useAuthStore from "@/store/auth.store";
+import { useRouter } from "next/navigation";
 
 const Page = () => {
+  const router = useRouter();
   const { loginUser, loading } = useAuthStore();
   const [user, setUser] = useState({
     email: "",
@@ -26,11 +28,11 @@ const Page = () => {
     try {
       const response = await loginUser(user);
 
-      console.log(response);
+      // console.log(response);
 
       alert("Login Successful");
 
-      // navigate("/dashboard");
+      router.push("/");
     } catch (err) {
       alert("Invalid credentials");
     }
@@ -74,8 +76,6 @@ const Page = () => {
             />
           </div>
 
-
-          {/* Submit */}
           <button
             type="submit"
             className="
@@ -89,8 +89,7 @@ const Page = () => {
               transition
               duration-200
               active:scale-95
-            "
-          >
+            ">
             Login
           </button>
 
